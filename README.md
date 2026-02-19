@@ -36,9 +36,11 @@ Built with performance and user experience in mind, leveraging the latest web te
 
 ## Screenshots
 
-| Player Profile | Tactical Lineup |
+| Home | Tactical Lineup |
 |:---:|:---:|
-| ![Player Profile](public/screenshot-profile.png) | ![Lineup](public/screenshot-lineup.png) |
+| ![Home](public/home.png) | ![Lineup](public/formazione.png) |
+| Market Value | Comparare Players |
+| ![Market](public/mercato.png) | ![Comparison](public/confronto.png) |
 
 ## Getting Started
 
@@ -83,4 +85,4 @@ This project is open source.
 
 ---
 
-Made by [Simone Gricia]
+Made by Simone Gricia.
