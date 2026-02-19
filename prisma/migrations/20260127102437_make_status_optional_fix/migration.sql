@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Report" ALTER COLUMN "status" DROP NOT NULL,
+ALTER COLUMN "status" DROP DEFAULT;

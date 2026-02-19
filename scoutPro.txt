@@ -1,0 +1,16 @@
+Vari ruoli come Scout, club, Direttore sportivo, ecc...
+
+adesso aggiungi:
+🌍 Scouting Map (Mappa Geografica)
+Cosa: Una mappa del mondo interattiva con dei "pin" dove si trovano i giocatori osservati.
+
+Perché: Utile per organizzare viaggi di scouting ("Sono in Brasile, chi altro posso vedere qui vicino?").
+
+Implementazione: Usare react-leaflet (gratuito e leggero).
+
+🔔 Sistema di Notifiche (Scadenze Contratto)
+Cosa: Un avviso quando un giocatore in Watchlist entra negli ultimi 6 mesi di contratto.
+
+Perché: Nel mercato reale, arrivare primi sui parametri zero (Free Agents) vale milioni.
+
+Implementazione: Un badge sulla campanella nella Navbar.

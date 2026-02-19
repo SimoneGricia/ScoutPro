@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Report" ADD COLUMN     "cleanSheets" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "saves" INTEGER NOT NULL DEFAULT 0;

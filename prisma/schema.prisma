@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Report {
+  id            String   @id @default(uuid())
+  createdAt     DateTime @default(now())
+  matchDate     DateTime
+  
+  status String? // "Da Osservare", "In Valutazione", "Trattativa", "Acquistato", "Scartato"
+  
+  // Relazione con lo storico
+  history PlayerHistory[]
+  
+  // Anagrafica
+  playerName    String
+  team          String
+  playerAge     Int
+  height        Int
+  weight        Int
+  
+  // Ruoli
+  mainRole      String
+  specificRoles String[]
+  
+  // Tecnica
+  preferredFoot String
+  weakFoot      Int
+  attributes    String[]
+  
+  // Analisi Qualitativa
+  strengths     String[]
+  weaknesses    String[]
+
+  // Heatmap & Stats
+  heatmapZones  String[]
+  goals           Int @default(0)
+  assists         Int @default(0)
+  shots           Int @default(0)
+  passesCompleted Int @default(0)
+  tacklesWon      Int @default(0)
+  minutesPlayed   Int @default(90)
+
+latitude        Float    @default(41.9028) // Default: Roma (o 0)
+longitude       Float    @default(12.4964)
+
+// --- NUOVE: STATISTICHE STAGIONALI ---
+  seasonApps        Int @default(0)
+  seasonGoals       Int @default(0)
+  seasonAssists     Int @default(0)
+  seasonCleanSheets Int @default(0)
+  seasonYellows     Int @default(0)
+  seasonReds        Int @default(0)
+  seasonAvgRating   Float @default(6.0)
+
+  // --- NUOVO CAMPO ---
+  customTags    String[] @default([])
+  
+  // --- NUOVO CAMPO FOTO ---
+  imageUrl      String?
+
+  // Valutazione
+  rating        Int
+  recommendation String
+  notes         String
+  
+  // Stats
+  pace          Int
+  shooting      Int
+  passing       Int
+  dribbling     Int
+  defending     Int
+  physical      Int
+
+  matchLogs       MatchLog[]
+
+  isFavorite      Boolean @default(false) 
+  videoLinks      String[] @default([])
+// NUOVI CAMPI PER PORTIERI
+  saves           Int @default(0) // Parate
+  cleanSheets     Int @default(0) // Porta Inviolata (0 = No, 1 = Si)
+
+// NUOVE: Stats Portieri
+  diving        Int @default(50) // Tuffo
+  handling      Int @default(50) // Presa
+  kicking       Int @default(50) // Rinvio
+  reflexes      Int @default(50) // Reattività
+  gkPositioning Int @default(50) // Posizionamento
+  gkSpeed       Int @default(50) // Velocità (speciale per GK)
+
+  // --- DATI FINANZIARI (NUOVI) ---
+  marketValue     Float    @default(0) // In Milioni (es. 15.5)
+  salary          Float    @default(0) // In Milioni netti (es. 1.2)
+  contractExpiry  DateTime?            // Data scadenza
+  agent           String   @default("")
+  releaseClause   Float    @default(0) // Clausola rescissoria
+}
+model SavedLineup {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  name      String
+  module    String   // Es. "4-3-3"
+  lineup    String   // JSON stringificato della mappa posizioni
+}
+
+// NUOVO MODELLO
+model PlayerHistory {
+  id        String   @id @default(cuid())
+  reportId  String
+  report    Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  date      DateTime @default(now())
+  rating    Int
+  marketValue Float
+}
+
+model MatchLog {
+  id            String   @id @default(cuid())
+  reportId      String
+  report        Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  
+  date          DateTime @default(now())
+  opponent      String   // Avversario (es. Juventus)
+  competition   String   // Competizione (es. Serie A)
+  minutesPlayed Int
+  rating        Float    // Voto partita (es. 7.5)
+  
+  // Stats
+  goals         Int      @default(0)
+  assists       Int      @default(0)
+  yellowCard    Boolean  @default(false)
+  redCard       Boolean  @default(false)
+  
+  // GK Stats
+  saves         Int      @default(0)
+  cleanSheet    Boolean  @default(false)
+
+  notes         String?  @db.Text // Note specifiche di QUESTA partita
+  
+  createdAt     DateTime @default(now())
+}
